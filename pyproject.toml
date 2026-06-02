@@ -26,6 +26,3 @@ check_untyped_defs = true
 strict_equality = true
 show_error_codes = true
 pretty = true
-
-[tool.pytest.ini_options]
-addopts = "-ra"

@@ -1,4 +1,4 @@
-# Binance Futures Testnet Trading Bot
+# BFTB0T: Binance Futures Testnet Trading Bot
 
 This repository contains a production-oriented Python trading bot for the Binance USDT-M Futures testnet. It supports MARKET, LIMIT, and STOP-LIMIT orders, validates input before any API call, logs requests and failures, and includes an offline automated test suite.
 
@@ -27,6 +27,28 @@ The implementation is designed so that order validation and payload generation c
 - Structured logging to `logs/trading_bot.log`
 - Offline unit, integration, and CLI tests
 - Static analysis support with Black, Ruff, and MyPy
+
+## Quick Start
+
+Clone, create a virtualenv, install dependencies, and run a first order quickly:
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+In PowerShell copy the example env and edit it with your Testnet credentials:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Open `.env` and add your Binance Futures Testnet `BINANCE_API_KEY` and `BINANCE_API_SECRET`, then run:
+
+```bash
+python cli.py place-order --symbol BTCUSDT --side BUY --type MARKET --quantity 0.001
+```
 
 ## Architecture Diagram
 
@@ -57,6 +79,12 @@ bot/config.py          ->  environment variables / .env.example
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
+```
+
+On macOS or Linux, activate the environment with:
+
+```bash
+source .venv/bin/activate
 ```
 
 ## Environment Variables
@@ -165,7 +193,7 @@ Static analysis commands:
 ```bash
 black .
 ruff check .
-mypy .
+mypy bot
 ```
 
 ## Continuous Integration
@@ -174,6 +202,7 @@ This repository includes a minimal GitHub Actions workflow at `.github/workflows
 
 - Installs dependencies from `requirements.txt`
 - Runs `ruff` linting
+- Runs `black --check`
 - Runs `mypy` for the `bot` package
 - Runs `pytest` with coverage
 
@@ -192,7 +221,3 @@ If any check fails the workflow will fail, ensuring PRs meet the static-analysis
 - If the API returns an authentication error, confirm that the testnet keys were created for the Binance Futures testnet.
 - If requests time out, increase `BINANCE_TIMEOUT_SECONDS` or retry later.
 - If validation fails, review the symbol, side, quantity, price, and stop price values before resubmitting.
-
-## Review Notes
-
-The repository includes a dedicated testing strategy document at `TESTING_STRATEGY.md` mapping every assignment requirement to automated coverage.
